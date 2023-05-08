@@ -2,7 +2,7 @@
 
 namespace DogShelter.Models
 {
-    public class Adoption
+    public class Adoption : BaseEntity
     {
         [ForeignKey("Dog")]
         public int IdDog { get; set; }

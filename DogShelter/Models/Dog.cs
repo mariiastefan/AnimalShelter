@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DogShelter.Models
 {
-    public class Dog
+    public class Dog : BaseEntity
     {
         public string Name { get; set; }
         public string AdoptionStatus { get; set; }

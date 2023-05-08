@@ -1,6 +1,6 @@
 ﻿namespace DogShelter.Models
 {
-    public class Details: BaseEntity
+    public class Details : BaseEntity
     {
         public string Type { get; set; }
 
