@@ -26,7 +26,7 @@ namespace DogShelter.Controllers
             return Ok();
         }
 
-        [HttpGet("/get-all")]
+        [HttpGet("/get-all-dogs")]
         [AllowAnonymous]
         public ActionResult<List<Dog>> GetAll()
         {
@@ -35,7 +35,7 @@ namespace DogShelter.Controllers
             return Ok(results);
         }
 
-        [HttpGet("/get/{dogId}")]
+        [HttpGet("/get-dog/{dogId}")]
         [AllowAnonymous]
         public ActionResult<Dog> GetById(int dogId)
         {
