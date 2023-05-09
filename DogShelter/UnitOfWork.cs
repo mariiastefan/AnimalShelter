@@ -7,6 +7,8 @@ namespace DogShelter
     {
         public UserRepository Users { get; }
         public RoleRepository Roles { get; }
+        public DogRepository Dogs { get; }
+        public DetailsRepository Details { get; }
 
         private readonly AppDBContext _dbContext;
 
@@ -14,14 +16,16 @@ namespace DogShelter
         (
             AppDBContext dbContext,
             RoleRepository rolesRepository,
-            UserRepository userRepository
-    
+            UserRepository userRepository,
+            DogRepository dogRepository,
+            DetailsRepository detailsRepository
         )
         {
             _dbContext = dbContext;
             Roles = rolesRepository;
             Users = userRepository;
-          
+            Dogs = dogRepository;
+            Details = detailsRepository;
         }
 
         public void SaveChanges()

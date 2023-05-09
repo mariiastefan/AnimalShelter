@@ -73,7 +73,7 @@ namespace DogShelter.Controllers
             return result;
         }
 
-        [HttpPatch("/delete-username")]
+        [HttpDelete("/delete-username")]
         [AllowAnonymous]
         public ActionResult<bool> DeleteUsername(int idUsername)
         {

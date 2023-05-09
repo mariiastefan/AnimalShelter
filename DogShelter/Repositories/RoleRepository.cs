@@ -9,5 +9,10 @@ namespace DogShelter.Repositories
         {
             this.dbContext = dbContext;
         }
+
+        public static implicit operator RoleRepository(DogRepository v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
