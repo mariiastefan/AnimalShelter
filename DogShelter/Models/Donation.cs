@@ -9,7 +9,7 @@ namespace DogShelter.Models
         public int IdUser { get; set; }
         public User User { get; set; }
 
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
 
         public DateTime DonationDate { get; set; }
     }

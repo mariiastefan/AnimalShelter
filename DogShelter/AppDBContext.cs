@@ -24,7 +24,7 @@ namespace DogShelter
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<Dog> Dog{ get; set; }
-        public DbSet<Adoption> Adotion { get; set; }
+        public DbSet<Adoption> Adoption { get; set; }
         public DbSet<Details> Details { get; set; }
         public DbSet<Donation> Donation { get; set; }
 

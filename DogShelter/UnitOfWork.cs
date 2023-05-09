@@ -1,26 +1,27 @@
-﻿using System;
+﻿using DogShelter.Repositories;
+using System;
 
 namespace DogShelter
 {
     public class UnitOfWork
     {
         //public StudentsRepository Students { get; }
-        //public UserRepository Users { get; }
+        public UserRepository Users { get; }
         //public ClassRepository Classes { get; }
 
         private readonly AppDBContext _dbContext;
 
         public UnitOfWork
         (
-            AppDBContext dbContext
+            AppDBContext dbContext,
             //StudentsRepository studentsRepository,
-            //UserRepository userRepository,
+            UserRepository userRepository
             //ClassRepository classes
         )
         {
             _dbContext = dbContext;
             //Students = studentsRepository;
-            //Users = userRepository;
+            Users = userRepository;
             //Classes = classes;
         }
 

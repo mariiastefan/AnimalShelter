@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DogShelter.Repositories;
+using DogShelter.Services;
+using System;
 
 namespace DogShelter.Settings
 {
@@ -11,18 +13,20 @@ namespace DogShelter.Settings
 
             applicationBuilder.Services.AddDbContext<AppDBContext>();
 
-            //AddRepositories(applicationBuilder.Services);
+            AddRepositories(applicationBuilder.Services);
             //AddServices(applicationBuilder.Services);
         }
 
         private static void AddServices(IServiceCollection services)
         {
-       
+            services.AddScoped<UserService>();
+
         }
 
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<UnitOfWork>();
+            services.AddScoped<UserRepository>();
         }
 
     }
