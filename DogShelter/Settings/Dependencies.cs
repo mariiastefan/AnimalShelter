@@ -20,6 +20,7 @@ namespace DogShelter.Settings
         private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<UserService>();
+            services.AddScoped<AuthorizationService>();
 
         }
 
