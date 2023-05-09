@@ -19,6 +19,15 @@ namespace DogShelter.Controllers
             this.userService = userService;
         }
 
+        [HttpGet("/get-all")]
+        [AllowAnonymous]
+        public ActionResult<List<User>> GetAll()
+        {
+            var results = userService.GetAll();
+
+            return Ok(results);
+        }
+
         [HttpPost("/register")]
         [AllowAnonymous]
         public IActionResult Register(RegisterDto payload)
@@ -48,6 +57,34 @@ namespace DogShelter.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpPatch("/edit-username")]
+        [AllowAnonymous]
+        public ActionResult<bool> EditUsername([FromBody] UserUpdateDto userUpdateModel)
+        {
+            var result = userService.EditUsername(userUpdateModel);
+
+            if (!result)
+            {
+                return BadRequest("Account username could not be updated.");
+            }
+
+            return result;
+        }
+
+        [HttpPatch("/delete-username")]
+        [AllowAnonymous]
+        public ActionResult<bool> DeleteUsername(int idUsername)
+        {
+            var result = userService.DeleteUsername(idUsername);
+            if (!result)
+            {
+                return BadRequest("Account could not be delete.");
+            }
+
+            return result;
+
         }
     }
 }

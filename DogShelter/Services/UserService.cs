@@ -91,5 +91,38 @@ namespace DogShelter.Services
 
             return result;
         }
+
+        public bool EditUsername(UserUpdateDto payload)
+        {
+            if (payload == null || payload.NewUsername == null)
+            {
+                return false;
+            }
+
+            var result = unitOfWork.Users.GetById(payload.Id);
+            if (result == null) return false;
+
+            result.Username = payload.NewUsername;
+
+            unitOfWork.Users.Update(result);
+            unitOfWork.SaveChanges();
+            return true;
+        }
+
+        public bool DeleteUsername(int userId)
+        {
+            if (userId == 0)
+            {
+                return false;
+            }
+
+            var result = unitOfWork.Users.GetById(userId);
+            if (result == null) return false;
+
+
+            unitOfWork.Users.Remove(result);
+            unitOfWork.SaveChanges();
+            return true;
+        }
     }
 }
