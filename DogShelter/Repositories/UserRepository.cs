@@ -9,5 +9,10 @@ namespace DogShelter.Repositories
         {
             this.dbContext = dbContext;
         }
+
+        public User GetByUsername(string username)
+        {
+            return dbContext.User.FirstOrDefault(e => e.Username == username);
+        }
     }
 }
