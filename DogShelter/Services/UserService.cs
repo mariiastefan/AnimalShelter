@@ -8,11 +8,12 @@ namespace DogShelter.Services
     public class UserService
     {
         private readonly UnitOfWork unitOfWork;
+        private AuthorizationService authService { get; set; }
 
-
-        public UserService(UnitOfWork unitOfWork)
+        public UserService(UnitOfWork unitOfWork, AuthorizationService authService)
         {
             this.unitOfWork = unitOfWork;
+            this.authService = authService;
         }
 
         public void Register(RegisterDto registerData)
@@ -22,11 +23,12 @@ namespace DogShelter.Services
                 return;
             }
 
+            var hashedPassword = authService.HashPassword(registerData.Password);
 
             var user = new User
             {
                 Username = registerData.Username,
-                Password = registerData.Password,
+                Password = hashedPassword,
                 RoleId = registerData.RoleId
             };
 
@@ -37,13 +39,41 @@ namespace DogShelter.Services
         public string Validate(LoginDto payload)
         {
             var user = unitOfWork.Users.GetByUsername(payload.Username);
+            if (user == null)
+            {
+                return null;
+            }
 
-            return null;
+            var passwordFine = authService.VerifyHashedPassword(user.Password, payload.Password);
+
+            if (passwordFine)
+            {
+
+                var role = unitOfWork.Roles.GetById(user.RoleId);
+
+                return authService.GetToken(user, role.Type);
+
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public string GetRole(User user)
         {
-            return null;
+            if (user.RoleId == 1)
+            {
+                return "admin";
+            }
+            else if (user.RoleId == 2)
+            {
+                return "adopter";
+            }
+            else
+            {
+                return "volunteer";
+            }
         }
 
         public List<User> GetAll()

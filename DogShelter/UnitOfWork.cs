@@ -5,24 +5,23 @@ namespace DogShelter
 {
     public class UnitOfWork
     {
-        //public StudentsRepository Students { get; }
         public UserRepository Users { get; }
-        //public ClassRepository Classes { get; }
+        public RoleRepository Roles { get; }
 
         private readonly AppDBContext _dbContext;
 
         public UnitOfWork
         (
             AppDBContext dbContext,
-            //StudentsRepository studentsRepository,
+            RoleRepository rolesRepository,
             UserRepository userRepository
-            //ClassRepository classes
+    
         )
         {
             _dbContext = dbContext;
-            //Students = studentsRepository;
+            Roles = rolesRepository;
             Users = userRepository;
-            //Classes = classes;
+          
         }
 
         public void SaveChanges()

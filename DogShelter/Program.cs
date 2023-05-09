@@ -28,8 +28,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ClockSkew = TimeSpan.Zero,
 
-        ValidIssuer = "LabAPI-Backend",
-        ValidAudience = "LabAPI-Anyone",
+        ValidIssuer = "DogShelter-Backend",
+        ValidAudience = "DogShelter-Anyone",
         IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecurityKey"]))
     };
 });

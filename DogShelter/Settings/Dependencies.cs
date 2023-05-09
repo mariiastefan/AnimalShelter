@@ -14,7 +14,7 @@ namespace DogShelter.Settings
             applicationBuilder.Services.AddDbContext<AppDBContext>();
 
             AddRepositories(applicationBuilder.Services);
-            //AddServices(applicationBuilder.Services);
+            AddServices(applicationBuilder.Services);
         }
 
         private static void AddServices(IServiceCollection services)
@@ -28,6 +28,7 @@ namespace DogShelter.Settings
         {
             services.AddScoped<UnitOfWork>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<RoleRepository>();
         }
 
     }

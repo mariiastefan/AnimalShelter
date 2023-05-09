@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace DogShelter.Controllers
 {
     [ApiController]
-    [Route("api/users")]
+    [Route("controller")]
     [Authorize]
     public class UserController : ControllerBase
     {
@@ -44,7 +44,7 @@ namespace DogShelter.Controllers
 
             if (result == null)
             {
-                return BadRequest("User not fount");
+                return BadRequest("User not found");
             }
 
             return Ok(result);
