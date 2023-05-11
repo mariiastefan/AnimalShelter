@@ -23,6 +23,8 @@ namespace DogShelter.Settings
             services.AddScoped<AuthorizationService>();
             services.AddScoped<DogService>();
             services.AddScoped<DetailsService>();
+            services.AddScoped<AdoptionService>();
+            services.AddScoped<DonationService>();
 
         }
 
@@ -33,6 +35,8 @@ namespace DogShelter.Settings
             services.AddScoped<RoleRepository>();
             services.AddScoped<DogRepository>();
             services.AddScoped<DetailsRepository>();
+            services.AddScoped<AdoptionRepository>();
+            services.AddScoped<DonationRepository>();
         }
 
     }

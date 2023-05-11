@@ -1,4 +1,5 @@
 ﻿using DogShelter.Repositories;
+using DogShelter.Services;
 using System;
 
 namespace DogShelter
@@ -9,6 +10,9 @@ namespace DogShelter
         public RoleRepository Roles { get; }
         public DogRepository Dogs { get; }
         public DetailsRepository Details { get; }
+        public AdoptionRepository Adoptions { get; }   
+        
+        public DonationRepository Donations { get; }
 
         private readonly AppDBContext _dbContext;
 
@@ -18,7 +22,9 @@ namespace DogShelter
             RoleRepository rolesRepository,
             UserRepository userRepository,
             DogRepository dogRepository,
-            DetailsRepository detailsRepository
+            DetailsRepository detailsRepository,
+            AdoptionRepository adoptionRepository,
+            DonationRepository donationRepository
         )
         {
             _dbContext = dbContext;
@@ -26,6 +32,8 @@ namespace DogShelter
             Users = userRepository;
             Dogs = dogRepository;
             Details = detailsRepository;
+            Adoptions = adoptionRepository;
+            Donations = donationRepository;
         }
 
         public void SaveChanges()
