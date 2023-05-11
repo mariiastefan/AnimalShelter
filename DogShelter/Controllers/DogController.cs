@@ -22,17 +22,32 @@ namespace DogShelter.Controllers
         [AllowAnonymous]
         public IActionResult AddDog(AddDogDto payload)
         {
-            dogService.AddDog(payload);
-            return Ok();
+
+            try
+            {
+                dogService.AddDog(payload);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("An error occurred while adding the dog.");
+            }
         }
 
         [HttpGet("/get-all-dogs")]
         [AllowAnonymous]
         public ActionResult<List<Dog>> GetAll()
         {
-            var results = dogService.GetAll();
-
-            return Ok(results);
+            try
+            {
+                var results = dogService.GetAll();
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while retrieving the dogs: " + ex.Message);
+                return BadRequest("An error occurred while retrieving the dogs.");
+            }
         }
 
         [HttpGet("/get-dog/{dogId}")]
@@ -86,7 +101,7 @@ namespace DogShelter.Controllers
             var result = dogService.DeleteDog(idDog);
             if (!result)
             {
-                return BadRequest("Dog could not be delete.");
+                return BadRequest("Dog could not be deleted.");
             }
 
             return result;
