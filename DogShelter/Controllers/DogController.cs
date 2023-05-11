@@ -49,19 +49,35 @@ namespace DogShelter.Controllers
             return Ok(result);
         }
 
-        //[HttpPatch("/edit-dogname")]
-        //[AllowAnonymous]
-        //public ActionResult<bool> EditDogname([FromBody] DogUpdateDto dogUpdateModel)
-        //{
-        //    var result = dogService.EditDogname(dogUpdateModel);
+        [HttpPatch("/edit-adoption-status")]
+        [AllowAnonymous]
+        public ActionResult<bool> EditAdoptionStatus([FromBody] UpdateAdoptionStatusDto payload)
+        {
+            var result = dogService.EditAdoptionStatus(payload);
 
-        //    if (!result)
-        //    {
-        //        return BadRequest("Account dogname could not be updated.");
-        //    }
+            if (!result)
+            {
+                return BadRequest("Adoption status could not be updated.");
+            }
 
-        //    return result;
-        //}
+            return result;
+        }
+
+        [HttpPut("/edit-dog-details")]
+        [AllowAnonymous]
+        public ActionResult<bool> EditDogDetails([FromBody] DogDetailsUpdateDto payload)
+        {
+            var result = dogService.EditDogDetails(payload);
+
+            if (!result)
+            {
+                return BadRequest("Dog details could not be updated.");
+            }
+
+            return result;
+        }
+
+
 
         [HttpDelete("/delete-dog")]
         [AllowAnonymous]
