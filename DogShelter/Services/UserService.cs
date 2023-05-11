@@ -2,6 +2,7 @@
 using DogShelter.Mapping;
 using DogShelter.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace DogShelter.Services
 {
@@ -18,45 +19,57 @@ namespace DogShelter.Services
 
         public void Register(RegisterDto registerData)
         {
-            if (registerData == null)
+            try
             {
-                return;
+                if (registerData == null)
+                {
+                    return;
+                }
+
+                var hashedPassword = authService.HashPassword(registerData.Password);
+
+                var user = new User
+                {
+                    Username = registerData.Username,
+                    Password = hashedPassword,
+                    RoleId = registerData.RoleId
+                };
+
+                unitOfWork.Users.Insert(user);
+                unitOfWork.SaveChanges();
             }
-
-            var hashedPassword = authService.HashPassword(registerData.Password);
-
-            var user = new User
+            catch (Exception ex)
             {
-                Username = registerData.Username,
-                Password = hashedPassword,
-                RoleId = registerData.RoleId
-            };
-
-            unitOfWork.Users.Insert(user);
-            unitOfWork.SaveChanges();
+                throw new Exception("An error occurred while adding user. Please try again later.", ex);
+            }
         }
 
         public string Validate(LoginDto payload)
         {
-            var user = unitOfWork.Users.GetByUsername(payload.Username);
-            if (user == null)
+            try
             {
-                return null;
+                var user = unitOfWork.Users.GetByUsername(payload.Username);
+                if (user == null)
+                {
+                    return null;
+                }
+
+                var passwordFine = authService.VerifyHashedPassword(user.Password, payload.Password);
+
+                if (passwordFine)
+                {
+                    var role = unitOfWork.Roles.GetById(user.RoleId);
+
+                    return authService.GetToken(user, role.Type);
+                }
+                else
+                {
+                    return null;
+                }
             }
-
-            var passwordFine = authService.VerifyHashedPassword(user.Password, payload.Password);
-
-            if (passwordFine)
+            catch (Exception ex)
             {
-
-                var role = unitOfWork.Roles.GetById(user.RoleId);
-
-                return authService.GetToken(user, role.Type);
-
-            }
-            else
-            {
-                return null;
+                throw new Exception("An error occurred while validating the user");
             }
         }
 
@@ -78,51 +91,83 @@ namespace DogShelter.Services
 
         public List<User> GetAll()
         {
-            var results = unitOfWork.Users.GetAll();
-
-            return results;
+            try
+            {
+                var results = unitOfWork.Users.GetAll();
+                return results;
+            }
+            catch (Exception ex)
+            {
+                return new List<User> { new User { Username = "Error retrieving users: " + ex.Message } };
+            }
         }
 
         public UserDto GetById(int userId)
         {
-            var user = unitOfWork.Users.GetById(userId);
+            try
+            {
+                var user = unitOfWork.Users.GetById(userId);
 
-            var result = user.ToUserDto();
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
 
-            return result;
+                var result = user.ToUserDto();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while processing your request. Please try again later.");
+            }
         }
 
         public bool EditUsername(UserUpdateDto payload)
         {
-            if (payload == null || payload.NewUsername == null)
+            try
             {
-                return false;
+                if (payload == null || payload.NewUsername == null)
+                {
+                    return false;
+                }
+
+                var result = unitOfWork.Users.GetById(payload.Id);
+                if (result == null) return false;
+
+                result.Username = payload.NewUsername;
+
+                unitOfWork.Users.Update(result);
+                unitOfWork.SaveChanges();
+
+                return true;
             }
-
-            var result = unitOfWork.Users.GetById(payload.Id);
-            if (result == null) return false;
-
-            result.Username = payload.NewUsername;
-
-            unitOfWork.Users.Update(result);
-            unitOfWork.SaveChanges();
-            return true;
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while editing the username.", ex);
+            }
         }
 
         public bool DeleteUsername(int userId)
         {
-            if (userId == 0)
+            try
             {
-                return false;
+                if (userId == 0)
+                {
+                    return false;
+                }
+
+                var result = unitOfWork.Users.GetById(userId);
+                if (result == null) return false;
+
+                unitOfWork.Users.Remove(result);
+                unitOfWork.SaveChanges();
+                return true;
             }
-
-            var result = unitOfWork.Users.GetById(userId);
-            if (result == null) return false;
-
-
-            unitOfWork.Users.Remove(result);
-            unitOfWork.SaveChanges();
-            return true;
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while deleting the username.", ex);
+            }
         }
     }
 }
