@@ -44,9 +44,17 @@ namespace DogShelter.Services
             unitOfWork.Dogs.Insert(newDog);
             unitOfWork.SaveChanges();
         }
+
         public List<Dog> GetAll()
         {
             var results = unitOfWork.Dogs.GetAll();
+
+            foreach (Dog dog in results)
+            {
+                var details = unitOfWork.Details.GetById(dog.IdDetails);
+
+                dog.Details = details;
+            }
 
             return results;
         }
@@ -54,6 +62,10 @@ namespace DogShelter.Services
         public Dog GetById(int dogId)
         {
             var dog = unitOfWork.Dogs.GetById(dogId);
+
+            var details = unitOfWork.Details.GetById(dog.IdDetails);
+
+            dog.Details = details;
 
             var result = dog;
 
