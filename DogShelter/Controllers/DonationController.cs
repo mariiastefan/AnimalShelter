@@ -21,17 +21,31 @@ namespace DogShelter.Controllers
         [AllowAnonymous]
         public IActionResult AddDonation(DonationDto payload)
         {
-            donationService.AddDonation(payload);
-            return Ok();
+            try
+            {
+                donationService.AddDonation(payload);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("An error occurred while adding the donation.");
+            }
         }
 
         [HttpGet("/get-all-donations")]
         [AllowAnonymous]
-        public ActionResult<List<Donation>> GetAllAdoptions()
+        public ActionResult<List<Donation>> GetAllDonations()
         {
-            var results = donationService.GetAll();
-
-            return Ok(results);
+            try
+            {
+                var results = donationService.GetAll();
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while retrieving the donations: " + ex.Message);
+                return BadRequest("An error occurred while retrieving the donations.");
+            }
         }
     }
 }
