@@ -26,7 +26,7 @@ namespace DogShelter.Services
             var newDog = new Dog
             {
                 Name = dog.Name,
-                AdoptionStatus = dog.AdoptionStatus,
+                AdoptionStatus = "pending",
                 IdDetails = details.Id,
                 Details = details
             };
@@ -90,15 +90,15 @@ namespace DogShelter.Services
             var details = unitOfWork.Details.GetById(dog.IdDetails);
             dog.Details = details;
 
-            dog.Name = payload.NewName;
-            details.Type = payload.NewType;
-            details.Photo = payload.NewPhoto;
-            details.Breed = payload.NewBreed;
-            details.DateOfBirth = payload.NewDateOfBirth;
-            details.Gender = payload.NewGender;
-            details.Weight = payload.NewWeight;
-            details.Color = payload.NewColor;
-            details.TypeOfFood = payload.NewTypeOfFood;
+            if (payload.NewName != "string") dog.Name = payload.NewName;
+            if (payload.NewType != "string") details.Type = payload.NewType;
+            if (payload.NewPhoto != "string") details.Photo = payload.NewPhoto;
+            if (payload.NewBreed != "string") details.Breed = payload.NewBreed;
+            if (payload.NewDateOfBirth.ToString("dd/MM/yyyy") != DateTime.Now.ToString("dd/MM/yyyy")) details.DateOfBirth = payload.NewDateOfBirth;
+            if (payload.NewGender != "string")details.Gender = payload.NewGender;
+            if (payload.NewWeight != 0) details.Weight = payload.NewWeight;
+            if (payload.NewColor != "string") details.Color = payload.NewColor;
+            if (payload.NewTypeOfFood != "string") details.TypeOfFood = payload.NewTypeOfFood;
 
             unitOfWork.Dogs.Update(dog);
             unitOfWork.Details.Update(details);

@@ -16,7 +16,7 @@ namespace DogShelter.Services
         {
             var newDetails = new Details
             {
-                Type = dog.Type,
+                Type = "dog",
                 Photo = dog.Photo,
                 Breed = dog.Breed,
                 DateOfBirth = dog.DateOfBirth,

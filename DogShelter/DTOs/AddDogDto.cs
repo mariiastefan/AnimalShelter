@@ -8,10 +8,6 @@ namespace DogShelter.DTOs
     {
         public string Name { get; set; }
 
-        public string AdoptionStatus { get; set; }
-
-        public string Type { get; set; }
-
         public string Photo { get; set; }
 
         public string Breed { get; set; }
